@@ -13,9 +13,9 @@ $ composer require niceforbear/jdbrbac
 ## Usage
 
 ``` php
-use niceforbear\jdbrbac\modules\MainModule;
+use niceforbear\jdbrbac\modules\CheckModule;
 
-$result = MainModule::isAllowed($userId);
+$result = CheckModule::isAllowed($userId);
 ```
 
 ## Testing
