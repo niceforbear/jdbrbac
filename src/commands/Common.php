@@ -6,12 +6,12 @@
 
 namespace niceforbear\jdbrbac\commands;
 
+use niceforbear\jdbrbac\helpers\RbacConsts;
 use niceforbear\jdbrbac\models\RbacRoute;
 
 class Common
 {
-    public static $system = 100;
-    public static $controllerKeyWord = 'Controller';
+    private static $controllerKeyWord = 'Controller';
     public static $_sourceData = [
         [
             'dir' => '/data/www/dmp/controllers',
@@ -24,6 +24,7 @@ class Common
             'prefix' => '/cms',
         ]
     ];
+
     public static function scanFile($file, $namespace, $prefix)
     {
         $routes = [];
@@ -106,7 +107,7 @@ class Common
 
         foreach ($routes as $route) {
             echo $route . "<br>" . PHP_EOL;
-            RbacRoute::addOne('', $route, self::$system);
+            RbacRoute::addOne('', $route, RbacConsts::SYSTEM_ID);
         }
 
         return true;
@@ -122,7 +123,7 @@ class Common
             echo $route . "<br>" . PHP_EOL;
             $isExist = RbacRoute::isRouteExist($route);
             if (!$isExist) {
-                RbacRoute::addOne('', $route, self::$system);
+                RbacRoute::addOne('', $route, RbacConsts::SYSTEM_ID);
             }
         }
 
