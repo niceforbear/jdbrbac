@@ -28,6 +28,11 @@ class CheckModule
         }
     }
 
+    public static function test()
+    {
+        echo 'success';
+    }
+
     private static function getRequestPathInfo()
     {
         return Yii::$app->request->pathInfo;
