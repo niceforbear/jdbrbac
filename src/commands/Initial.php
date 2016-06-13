@@ -9,18 +9,11 @@ namespace niceforbear\jdbrbac\commands;
 /**
  * Steps:
  *
- * 1. 配置system = md5() // maybe
- * 2. 配置文件夹
- * 3. 递归读取配置的文件夹
- *   * 如果是文件则处理
- *   * 如果是文件夹, 则通过步骤3继续处理
- * 4. 如果是文件:
- *   * 通过文件名判断是否是Controller
- *   * 如果是, 获得命名空间, 获得方法 & 注释
- *   * 判断方法满足筛选条件, 注释满足条件, 写入是否满足写入条件
- *   * 如果库里的方法没有了, 则将库里相关联的路由删除
+ * 1. 读取配置文件夹下的文件
+ * 2. 判断文件是否是controller, 如果是则进行处理
+ * 3. 获取文件中action方法
+ * 4. 把该action方法解析成route, 并进行存储
  */
-
 class Initial
 {
     public function route()
