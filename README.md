@@ -31,10 +31,7 @@
 
 6. 演示
 
-> 线上Demo参考：http://demo.hyii2.com
-
-* 账户：test  
-* 密码：123456 
+> 线上Demo参考：http://demo.hyii2.com 
 
 # 有关界面
 

@@ -20,14 +20,14 @@ class Utils
         'dev' => [
             'source_data' => [
                 [
-                    'dir' => '/data/www/dmp/controllers',
+                    'dir' => '/path/to/controllers',
                     'namespace' => '\app\\controllers\\',
                     'prefix' => '',
                 ],
                 [
-                    'dir' => '/data/www/dmp/modules/Cms/controllers',
-                    'namespace' => '\app\\modules\\Cms\\controllers\\',
-                    'prefix' => '/cms',
+                    'dir' => '/path/to/MyModule/controllers',
+                    'namespace' => '\app\\modules\\MyModule\\controllers\\',
+                    'prefix' => '/MyModule',
                 ]
             ],
         ],
@@ -37,12 +37,12 @@ class Utils
     ];
 
     /** Table names */
-    const TABLE_ROUTE = 'jdb_rbac_route';
-    const TABLE_ROLE = 'jdb_rbac_role';
-    const TABLE_ROLE_ASSIGN = 'jdb_rbac_role_assign';
-    const TABLE_PERMISSION = 'jdb_rbac_permission';
-    const TABLE_PERMISSION_ASSIGN = 'jdb_rbac_permission_assign';
-    const TABLE_USER_ASSIGN = 'jdb_rbac_user_assign';
+    const TABLE_ROUTE = '';
+    const TABLE_ROLE = '';
+    const TABLE_ROLE_ASSIGN = '';
+    const TABLE_PERMISSION = '';
+    const TABLE_PERMISSION_ASSIGN = '';
+    const TABLE_USER_ASSIGN = '';
     const TABLE_USER = 'user';
     /** Table names */
 
