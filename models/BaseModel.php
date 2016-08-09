@@ -1,18 +1,21 @@
 <?php
 /**
  * @author nesfoubaer
- * @date 16/6/7 下午11:19
+ * @date 16/6/28 下午3:44
  */
 
-namespace niceforbear\jdbrbac\models;
+namespace app\jdbrbac\models;
 
-use niceforbear\jdbrbac\helpers\RbacConsts;
 use yii\db\ActiveRecord;
 
 class BaseModel extends ActiveRecord
 {
     public static function getDb()
     {
-        return RbacConsts::DB_CONNECT_DB;
+        return '';
+    }
+
+    public static function baseCheckTableId($id)
+    {
     }
 }

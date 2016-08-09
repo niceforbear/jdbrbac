@@ -1,57 +1,54 @@
 -- Notice: Please use IDE `replace` function to replace `{prefix}` to what you want
 
-CREATE TABLE `{prefix}_rbac_route` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) COMMENT 'route name',
+CREATE TABLE `jdb_rbac_route` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `route` VARCHAR(128) NOT NULL COMMENT 'route',
-  `system` INT UNSIGNED NOT NULL COMMENT 'The system which the route belongs to',
-  `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `time_update` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `type` INT NOT NULL DEFAULT 0 COMMENT '路由的类型: type == 0: 普通; type == 1: 自定义',
   `ext` TEXT,
-  PRIMARY KEY (`id`)
-)ENGINE = InnoDB AUTO_INCREMENT=600 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'Route table';
-
-CREATE TABLE `{prefix}_rbac_permission` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) NOT NULL COMMENT 'permission name',
-  `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `time_update` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ext` TEXT,
-  PRIMARY KEY (`id`)
-)ENGINE = InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'Permission base table';
-
-CREATE TABLE `{prefix}_rbac_permission_assign` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `permission_id` INT UNSIGNED NOT NULL COMMENT 'rbac_permission.id',
-  `route_id` INT UNSIGNED NOT NULL COMMENT 'rbac_route.id',
-  `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  KEY (`permission_id`)
-)ENGINE = InnoDB AUTO_INCREMENT=400 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'Permission - route table';
+  KEY (`type`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '路由表';
+-- if type == 1: ext=json_encode(['method'=>'', 'params' => ['k1' => 'v1', 'k2' => 'v2', ...]]);
 
-CREATE TABLE `{prefix}_rbac_role` (
+CREATE TABLE `jdb_rbac_permission` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256) NOT NULL COMMENT '权限名称',
+  `ext` TEXT,
+  PRIMARY KEY (`id`),
+  UNIQUE (`name`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '权限表';
+
+CREATE TABLE `jdb_rbac_permission_assign` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `permission_id` INT NOT NULL COMMENT '权限id',
+  `route_id` INT NOT NULL COMMENT '路由id',
+  PRIMARY KEY (`id`),
+  KEY (`permission_id`, `route_id`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '权限-路由 分配表';
+
+CREATE TABLE `jdb_rbac_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(256) NOT NULL COMMENT '',
-  `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `time_update` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ext` TEXT,
-  PRIMARY KEY (`id`)
-)ENGINE = InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'Role name table';
+  PRIMARY KEY (`id`),
+  UNIQUE (`name`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '角色表';
 
-CREATE TABLE `{prefix}_rbac_role_assign` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `role_id` INT UNSIGNED NOT NULL,
-  `permission_id` INT UNSIGNED NOT NULL,
+CREATE TABLE `jdb_rbac_role_assign` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role_id` INT NOT NULL,
+  `permission_id` INT NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY (`role_id`, `permission_id`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '角色-[角色, 权限, 路由] 分配表';
+
+CREATE TABLE `jdb_rbac_user_assign` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT NOT NULL,
+  `role_id` INT NOT NULL DEFAULT '',
+  `system_id` INT NOT NULL DEFAULT 0,
   `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  KEY (`role_id`)
-)ENGINE = InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'Role - perm assign table';
-
-CREATE TABLE `{prefix}_rbac_user_assign` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT UNSIGNED NOT NULL,
-  `role_id` INT UNSIGNED NOT NULL,
-  `time_create` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY (`user_id`, `role_id`)
-)ENGINE = InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT 'User - role assign table';
+  KEY (`user_id`, `role_id`),
+  KEY (`time_create`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci COMMENT '用户分配表';
